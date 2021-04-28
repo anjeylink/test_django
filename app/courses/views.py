@@ -1,6 +1,9 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework import viewsets
+
+from .serializers import CourseSerializer
+from .models import Course
 
 
-def index(request):
-    return HttpResponse('I really need to restart? ')
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
