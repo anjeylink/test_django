@@ -9,14 +9,17 @@ const course = new Course();
 const CourseNew = () => {
     const goBack = useHistoryGoBack();
 
-    const handleSubmit = async values => {
+    const handleSubmit = async (values, { setErrors }) => {
         try {
             await course.create(values);
 
             goBack();
         } catch (error) {
-            console.error(error);
-            alert('Something went wrong');
+            const errors = error.errors;
+
+            if (errors) {
+                setErrors(errors);
+            }
         }
     }
 

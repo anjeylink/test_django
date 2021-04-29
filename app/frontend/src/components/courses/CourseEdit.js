@@ -14,14 +14,17 @@ const CourseEdit = () => {
     const { data, loading } = useFetchOne(pk, course);
     const goBack = useHistoryGoBack();
 
-    const handleSubmit = async values => {
+    const handleSubmit = async (values, { setErrors }) => {
         try {
             await course.update(pk, values);
 
             goBack();
         } catch (error) {
-            console.error(error);
-            alert('Something went wrong');
+            const errors = error.errors;
+
+            if (errors) {
+                setErrors(errors);
+            }
         }
     }
 

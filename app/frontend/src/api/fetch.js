@@ -20,13 +20,16 @@ const fetchApi = async (url, options) => {
         return null;
     }
 
-    try {
-        return await response.json();
-    } catch (error) {
-        console.error(error);
+    if (response.status === 400) {
+        const error = new Error('HTTP status code: ' + response.status);
 
-        return null;
+        error.response = response;
+        error.errors = await response.json();
+
+        throw error;
     }
+
+    return await response.json();
 }
 
 export default fetchApi;
