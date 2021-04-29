@@ -31,14 +31,26 @@ const fetchApi = async (url, options) => {
 
 export default fetchApi;
 
-export const get = async (url, params = {}) => {
+export const getRequest = (url, params = {}) => {
     const urlParams = new URLSearchParams(params).toString();
 
     if (urlParams) {
         url += url.includes('?') ? `&${urlParams}` : `?${urlParams}`;
     }
 
-    return await fetchApi(url, {
+    return fetchApi(url, {
         method: 'GET',
+    });
+}
+
+export const deleteRequest = (url, params = {}) => {
+    const urlParams = new URLSearchParams(params).toString();
+
+    if (urlParams) {
+        url += url.includes('?') ? `&${urlParams}` : `?${urlParams}`;
+    }
+
+    return fetchApi(url, {
+        method: 'DELETE',
     });
 }

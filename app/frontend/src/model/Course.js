@@ -1,7 +1,6 @@
-import Model from "./Model";
+import Model from './Model';
 
-class Course extends Model
-{
+class Course extends Model {
     url = '/courses';
 }
 
