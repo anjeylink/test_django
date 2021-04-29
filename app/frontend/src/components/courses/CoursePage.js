@@ -13,8 +13,8 @@ const CoursePage = () => {
         <Switch>
             <Route path={url} exact component={CourseList}/>
             <Route path={`${url}/:pk/show`} component={CourseShow}/>
-            <Route path={`${url}/:pk`} component={CourseEdit}/>
             <Route path={`${url}/new`} component={CourseNew}/>
+            <Route path={`${url}/:pk`} component={CourseEdit}/>
         </Switch>
     );
 }

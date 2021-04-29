@@ -1,5 +1,5 @@
 // Consider replace with ENV variable
-import { deleteRequest, getRequest } from '../api/fetch';
+import { deleteRequest, getRequest, postRequest, putRequest } from '../api/fetch';
 import { normalizePath } from '../utility/router';
 
 const API_BASE_URL = 'http://localhost:8000';
@@ -20,11 +20,19 @@ class Model {
     }
 
     getOne(pk) {
-        return getRequest(this.getApiEndpoint() + pk + '/');
+        return getRequest(this._recordApiUrl(pk));
+    }
+
+    create(data) {
+        return postRequest(this.getApiEndpoint(), data);
+    }
+
+    update(pk, data) {
+        return putRequest(this._recordApiUrl(pk), data);
     }
 
     delete(pk) {
-        return deleteRequest(this.getApiEndpoint() + pk + '/');
+        return deleteRequest(this._recordApiUrl(pk));
     }
 
     getApiEndpoint() {
@@ -33,6 +41,10 @@ class Model {
         }
 
         return this._normalizedApiUrl;
+    }
+
+    _recordApiUrl(pk) {
+        return this.getApiEndpoint() + pk + '/';
     }
 
     _normalizeApiUrl() {

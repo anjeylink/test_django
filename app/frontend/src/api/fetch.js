@@ -43,6 +43,20 @@ export const getRequest = (url, params = {}) => {
     });
 }
 
+export const postRequest = (url, data) => {
+    return fetchApi(url, {
+        method: 'POST',
+        body: JSON.stringify(data),
+    });
+}
+
+export const putRequest = (url, data) => {
+    return fetchApi(url, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+    });
+}
+
 export const deleteRequest = (url, params = {}) => {
     const urlParams = new URLSearchParams(params).toString();
 

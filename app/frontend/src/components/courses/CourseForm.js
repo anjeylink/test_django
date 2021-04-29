@@ -1,27 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
+import { Button, Form, Spinner } from 'react-bootstrap';
 
 import BackButton from '../layout/BackButton';
-import { Button } from 'react-bootstrap';
+import TextInput from '../input/TextInput';
 
-const CourseForm = ({ onSubmit, children, record = {} }) => {
-    const isEdit = !!record.pk;
+const CourseForm = ({ onSubmit, record = {} }) => {
 
     return (
         <Formik initialValues={record} onSubmit={onSubmit}>
-            {({ isSubmitting }) => (
-                <form action="">
+            {({ handleSubmit, dirty, isSubmitting }) => (
+                <Form onSubmit={handleSubmit}>
+                    <TextInput label="Name" name="name"/>
+                    <TextInput label="Start date" name="start_date" type="date"/>
+                    <TextInput label="End date" name="end_date" type="date"/>
+                    <TextInput label="Number of lectures" name="lectures_quantity" type="number"/>
 
-                    <BackButton variant="info" className="mr-2" />
+                    <BackButton variant="info" className="mr-2"/>
                     <Button
                         variant="primary"
                         type="submit"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || !dirty}
                     >
+                        {isSubmitting && (
+                            <Spinner animation="border" variant="light" size="sm" className="mr-2" />
+                        )}
                         Submit
                     </Button>
-                </form>
+                </Form>
             )}
         </Formik>
     );
