@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import Course from './model/Course';
+import React from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-const course = new Course();
+import CoursePage from './components/courses/CoursePage';
 
-const App = () => {
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetch = async () => {
-            const response = await course.get();
-
-            console.log(response)
-            setLoading(false);
-        };
-
-        fetch();
-    }, []);
-
-    return (
-        loading ? (
-            <span>Loading....</span>
-        ) : (
-            <span>Done</span>
-        )
-    );
-};
+const App = () => (
+    <Router>
+        <Container>
+            <Row>
+                <Col>
+                    <Switch>
+                        <Route path="/courses" component={CoursePage} />
+                    </Switch>
+                </Col>
+            </Row>
+        </Container>
+    </Router>
+);
 
 export default App;
