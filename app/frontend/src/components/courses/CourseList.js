@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
-
-import Course from '../../model/Course';
-import RowActions from './RowActions';
-import { createPath, editPath, showPath } from '../../utility/router';
-import { formatDate } from '../../utility/date';
 import { Button } from 'react-bootstrap';
+
+import CourseFilter from './CourseFilter';
+import RowActions from './RowActions';
+
+import { createPath, editPath, showPath } from '../../utility/router';
+import Course from '../../model/Course';
+import { formatDate } from '../../utility/date';
 
 const course = new Course();
 
@@ -19,6 +21,8 @@ const CourseList = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [reload, setReload] = useState(false);
+    const [filters, setFilters] = useState({});
+
     const history = useHistory();
     const match = useRouteMatch();
 
@@ -31,7 +35,7 @@ const CourseList = () => {
             setLoading(true);
 
             try {
-                const data = await course.get();
+                const data = await course.get(filters);
 
                 setData(data);
             } catch (error) {
@@ -42,7 +46,7 @@ const CourseList = () => {
         };
 
         fetch();
-    }, [reload]);
+    }, [reload, filters]);
 
     const handleDelete = async row => {
         if (window.confirm('Are you sure?')) {
@@ -86,6 +90,10 @@ const CourseList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     ], []);
 
+    const subHeader = useMemo(() => {
+        return <CourseFilter setFilters={setFilters}/>
+    }, []);
+
     return (
         <TableWrapper>
             <DataTable
@@ -95,6 +103,8 @@ const CourseList = () => {
                 progressPending={loading}
                 onRowClicked={handleRowClick}
                 actions={actions}
+                subHeader={true}
+                subHeaderComponent={subHeader}
                 highlightOnHover
                 pointerOnHover
             />
@@ -115,6 +125,6 @@ const Actions = () => {
     );
 }
 
-const actions = <Actions />;
+const actions = <Actions/>;
 
 export default CourseList;
