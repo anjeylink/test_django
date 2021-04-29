@@ -6,10 +6,32 @@ import { Button, Form, Spinner } from 'react-bootstrap';
 import BackButton from '../layout/BackButton';
 import TextInput from '../input/TextInput';
 
+const validate = values => {
+    const errors = {};
+
+    ['name', 'lectures_quantity'].forEach(field => {
+        if (!values[field]) {
+            errors[field] = 'Field is required';
+        }
+    });
+
+    if (values['lectures_quantity'] && isNaN(values['lectures_quantity'])) {
+        errors['lectures_quantity'] = 'Field should be a number';
+    }
+
+
+    return errors;
+}
+
 const CourseForm = ({ onSubmit, record = {} }) => {
 
     return (
-        <Formik initialValues={record} onSubmit={onSubmit}>
+        <Formik
+            initialValues={record}
+            onSubmit={onSubmit}
+            validate={validate}
+            validateOnChange={false}
+        >
             {({ handleSubmit, dirty, isSubmitting }) => (
                 <Form onSubmit={handleSubmit}>
                     <TextInput label="Name" name="name"/>
@@ -24,7 +46,7 @@ const CourseForm = ({ onSubmit, record = {} }) => {
                         disabled={isSubmitting || !dirty}
                     >
                         {isSubmitting && (
-                            <Spinner animation="border" variant="light" size="sm" className="mr-2" />
+                            <Spinner animation="border" variant="light" size="sm" className="mr-2"/>
                         )}
                         Submit
                     </Button>

@@ -18,7 +18,7 @@ const TextInput = ({ name, label, placeholder, type }) => {
                 value={value}
                 onChange={field.onChange}
                 isValid={meta.touched && !meta.error}
-                isInvalid={!!meta.error}
+                isInvalid={meta.error}
             />
             <Form.Control.Feedback type="invalid">
                 {meta.error}
