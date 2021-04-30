@@ -21,7 +21,7 @@ const CourseList = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [reload, setReload] = useState(false);
-    const [filters, setFilters] = useState({});
+    const [filters, setFilters] = useState({ page: 1, perPage: 10 });
 
     const history = useHistory();
     const match = useRouteMatch();
@@ -64,6 +64,12 @@ const CourseList = () => {
     const handleRowClick = useCallback(row => {
         history.push(showPath(match.url, row));
     }, [history, match.url]);
+    const handlePageChange = useCallback((page) => {
+        setFilters(filters => ({ ...filters, page }))
+    }, []);
+    const handlePerPageChange = useCallback((perPage) => {
+        setFilters(filters => ({ ...filters, perPage }))
+    }, []);
 
     const columns = useMemo(() => [
         {
@@ -99,7 +105,7 @@ const CourseList = () => {
             <DataTable
                 title="Courses"
                 columns={columns}
-                data={data}
+                data={data.results}
                 progressPending={loading}
                 onRowClicked={handleRowClick}
                 actions={actions}
@@ -107,6 +113,11 @@ const CourseList = () => {
                 subHeaderComponent={subHeader}
                 highlightOnHover
                 pointerOnHover
+                pagination
+                paginationServer
+                paginationTotalRows={data.count || 0}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={handlePerPageChange}
             />
         </TableWrapper>
     );
