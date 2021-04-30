@@ -118,6 +118,7 @@ const CourseList = () => {
                 paginationTotalRows={data.count || 0}
                 onChangePage={handlePageChange}
                 onChangeRowsPerPage={handlePerPageChange}
+                overflowY
             />
         </TableWrapper>
     );
