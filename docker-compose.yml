@@ -21,3 +21,12 @@ services:
       - ./.env.dev
     depends_on:
       - db
+
+  node:
+    image: node:15-alpine
+    volumes:
+      - ./app/frontend:/app
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    command: [ "yarn", "start" ]
