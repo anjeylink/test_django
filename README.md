@@ -21,7 +21,13 @@ Go to project directory:
 $ cd test_django
 ```
 
-Run command
+Install **yarn** dependencies:
+
+```console
+$ docker-compose run --rm node yarn install
+```
+
+Start project
 
 ```console
 $ docker-compose up -d
@@ -34,7 +40,7 @@ $ docker-compose up -d
 In project root directory run command:
 
 ```console
-$ ./docker/manage.sh migratemigrations
+$ ./docker/manage.sh migrate
 ```
 
 ### Step 4: Open project in browser:
