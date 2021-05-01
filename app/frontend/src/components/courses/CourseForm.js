@@ -8,8 +8,9 @@ import TextInput from '../input/TextInput';
 
 const validate = values => {
     const errors = {};
+    const dateFields = ['start_date', 'end_date'];
 
-    ['name', 'lectures_quantity'].forEach(field => {
+    ['name', 'lectures_quantity', ...dateFields].forEach(field => {
         if (!values[field]) {
             errors[field] = 'Field is required';
         }
@@ -19,6 +20,19 @@ const validate = values => {
         errors['lectures_quantity'] = 'Field should be a number';
     }
 
+    dateFields.forEach(date => {
+        const dateValue = values[date];
+
+        if (dateValue) {
+            return;
+        }
+
+        try {
+            new Date(dateValue);
+        } catch (error) {
+            errors[date] = 'Invalid date';
+        }
+    });
 
     return errors;
 }
